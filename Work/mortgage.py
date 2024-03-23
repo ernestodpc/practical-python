@@ -63,7 +63,7 @@ while principal > 0:
     else:
         principal = principal * (1 + rate/12) - payment
     total_paid = total_paid + payment
-    print(elapsed_months, round(total_paid,2), round(principal,2))
+    print(f'{elapsed_months: >10}', f'{round(total_paid,2): >5.2f}', f'{round(principal,2): >5.2f}')
 
 print('Total paid: ', round(total_paid, 1))
 print('Months: ', elapsed_months)
