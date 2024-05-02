@@ -115,3 +115,67 @@ for stock in portfolio:
 print(f'portfolio_value: {portfolio_value}')
 
 print(f'The gain (or loss) is: {portfolio_value - portfolio_cost}')
+
+
+# Excercise 2.9: Collecting Data
+#
+# In Excercise 2.7, you wrote a program called report.py
+# that computed the gain/loss of a stock portfolio. In this
+# excercise, you're going to start modifying it to produce a table
+# like this:
+# ...
+# In order to generate the above report, you'll first want to collect
+# all of the data shown in the table. Write a function make_report()
+# that takes a list of stocks and a dictionary of prices as inputs and
+# returns a list of tuples containing the rows of the above table.
+
+def make_report(*, stock_list, prices_dict):
+    '''What am I supposed to do???'''
+    my_report = [(stock.get('name'), stock.get('shares'),
+                  prices_dict.get(stock.get('name')),
+                  prices_dict.get(stock.get('name')) - stock.get('price'))
+                 for stock in stock_list]
+    return my_report
+
+my_report = make_report(stock_list=portfolio, prices_dict=prices)
+
+# Excercise 2.10: Printing a formatted table
+#
+# Have your program take the output of the make_report() function
+# and print a nicely formatted table as shown
+
+def print_report(*, report):
+    '''I have no idea what I'm doing!'''
+    print('\n')
+    for name, shares, price, change in report:
+        my_string = f'{name:>10s} {shares:>10d} {price:>10.2f} {change:10.2f}'
+        print(my_string)
+
+print_report(report=my_report)
+
+# Excercise 2.11: Adding some headers
+#
+# Add code to your program that takes a tuple of headers and creates
+# a string where each header name is right-aligned in a 10-character
+# wide field and each field is separated by a single space.
+
+def print_report(*, report, headers, sep=None):
+    '''I have no idea what I'm doing!'''
+    print('\n')
+    name, shares, price, change, *_ = headers
+    header_string = f'{name:>10s} {shares:>10s} {price:>10s} {change:>10s}'
+    print(header_string)
+    sep_string = f'{10*sep:>10s} {10*sep:>10s} {10*sep:>10s} {10*sep:>10s}'
+    print(sep_string)
+    currency_symbol = '$'
+    for name, shares, price, change in report:
+        price = currency_symbol+f'{price:.2f}'
+        my_string = f'{name:>10s} {shares:>10d} {price:>10s} {change:10.2f}'
+        print(my_string)
+
+print_report(report=my_report, headers=('Name', 'Shares', 'Price', 'Change'), sep='-')
+
+# Excercise 2.12: Formatting challenge
+#
+# How would you modify your code so that the price includes the currency symbol ($)?
+# Completed! see above function definition!
