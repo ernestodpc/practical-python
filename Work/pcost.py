@@ -90,18 +90,25 @@ import csv
 
 import sys
 
+# Excercise 2.15: A practical enumerate() example
+#
+# Recall that the file Data/missing.csv contains data for a stock portfolio, but has
+# some rows with missing data. Using enumerate(), modify your pcost.py program so that
+# it prints a line number with the warning message when it encounters bad input.
+# Excercise completed!
+
 def portfolio_cost(filename: str) -> float:
     '''Read input file name and return the total cost of the portfolio as float.'''
     with open(filename, newline='') as file:
         csv_reader = csv.reader(file)
         next(file)
         sum = 0
-        for row in csv_reader:
+        for rowno, row  in enumerate(csv_reader, start=1):
             _name, shares, price = row
             try:
                 sum += int(shares) * float(price)
-            except ValueError as e:
-                print('Warning ValueError', e)
+            except ValueError:
+                print(f'Row {rowno}: Bad row: {row}')
                 continue
         return sum
 
@@ -109,7 +116,7 @@ def portfolio_cost(filename: str) -> float:
 if len(sys.argv) == 2:
     filename = sys.argv[1]
 else:
-    filename = 'Work/Daata/portfolio.csv'
+    filename = 'Work/Data/portfolio.csv'
 
 cost = portfolio_cost(filename)
 print('Total cost:', cost)
