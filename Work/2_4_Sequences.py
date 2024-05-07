@@ -199,3 +199,58 @@ for n in range(len(data)):
 # some rows with missing data. Using enumerate(), modify your pcost.py program so that
 # it prints a line number with the warning message when it encounters bad input.
 # Excercise completed: see pcost.py
+
+# Excercise 2.16: Using the zip() function completed: see report.py
+
+# Excercise 2.17: Inverting a dictionary
+#
+# A dictionary maps keys to values. For example, a dictionary of stock prices
+prices = {
+    'GOOG': 490.1,
+    'AA': 23.45,
+    'IBM': 91.1,
+    'MSFT': 34.23
+    }
+
+# if you use the items() method, you can get (key,value) pairs
+prices.items()
+
+# however, what if you wanted to get a list of (value, key) pairs instead?
+# Use zip()
+pricelist = list(zip(prices.values(), prices.keys()))
+
+# Why would you do this? For one, it allows you to perform certain kinds
+# of data processing on the dictionary data
+
+min(pricelist)
+
+max(pricelist)
+
+sorted(pricelist)
+
+# This also ilustrates an important feature of tuples. When used in comparisons,
+# tuples are compared element-by-element starting with the first item. Similar
+# to how strings are compared character-by-character.
+
+# zip() is often used in situations like this where you need to pair up data
+# from different places. For example, pairing up the column names with column
+# values in order to make a dictionary of named values.
+
+# Note: zip() is not limited to pairs. For example, you can use it with any
+# number of input lists
+
+a = [i for i in range(1,5,1)]
+
+b = ['w', 'x', 'y', 'z']
+
+c = [0.20, 0.40, 0.60, 0.80]
+
+list(zip(a,b,c))
+
+# Also, be aware that zip() stops once the shortest input sequence is exhausted
+a = [i for i in range(1,7,1)]
+b = ['x', 'y', 'z']
+
+list(zip(a,b))
+
+

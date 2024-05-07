@@ -97,16 +97,59 @@ import sys
 # it prints a line number with the warning message when it encounters bad input.
 # Excercise completed!
 
+#def portfolio_cost(filename: str) -> float:
+#    '''Read input file name and return the total cost of the portfolio as float.'''
+#    with open(filename, newline='') as file:
+#        csv_reader = csv.reader(file)
+#        next(file)
+#        sum = 0
+#        for rowno, row  in enumerate(csv_reader, start=1):
+#            _name, shares, price = row
+#            try:
+#                sum += int(shares) * float(price)
+#            except ValueError:
+#                print(f'Row {rowno}: Bad row: {row}')
+#                continue
+#        return sum
+#
+#
+#if len(sys.argv) == 2:
+#    filename = sys.argv[1]
+#else:
+#    filename = 'Work/Data/portfolio.csv'
+#
+#cost = portfolio_cost(filename)
+#print('Total cost:', cost)
+#
+# Excercise 2.16: Using the zip() function
+#
+# In the file Data/portfolio.csv, the first line contains column headers. In all
+# previous code, we've been discarding them. However, what if you could use the
+# headers for something useful? This is where the zip() function enters the picture.
+# First try to pair the file headers with a row of data...
+# ...
+# Notice how zip() paired the column headers with the column headers. We've used lis()
+# here to turn the result into a list so that you can see it. Normally, zip() creates
+# an iterator that must be consumed with a for loop.
+
+# This pairing is an intermediate step to building a dictionary. Now try this
+# record = dict(zip(headers, row))
+# This transformation is one of the most useful tricks to know about when processing a lot
+# of data files. For example, suppose you wanted to make the pcost.py program to work with
+# various input files, but without regard for the actual column number where the name, shares,
+# and price appear.
+#
+# Modify the portfolio_cost() function in pcost.py so that it looks like this ...
 def portfolio_cost(filename: str) -> float:
     '''Read input file name and return the total cost of the portfolio as float.'''
     with open(filename, newline='') as file:
         csv_reader = csv.reader(file)
-        next(file)
+        headers = next(csv_reader)
         sum = 0
         for rowno, row  in enumerate(csv_reader, start=1):
-            _name, shares, price = row
+            record = dict(zip(headers, row))
             try:
-                sum += int(shares) * float(price)
+                sum += int(record['shares']) * float(record['price'])
             except ValueError:
                 print(f'Row {rowno}: Bad row: {row}')
                 continue
@@ -121,3 +164,12 @@ else:
 cost = portfolio_cost(filename)
 print('Total cost:', cost)
 
+# If you did it right, you'll find that your program still workd even though the data has a completely
+# different column format than before. That's cool!
+# The change made here is subtle, but significant. Instead of portfolio_cost() being hard-coded to
+# read a single fixed file format, the new version reads any CSV file and picks the values of interest
+# out of it. As long as the file has the required columns, the code will work.
+# Modify the report.py program that you wrote in Section 2.3 so that it uses the same technique
+# to pick out column headers.
+# Try running the report.py program on the Data/portfoliodate.csv file and see that it produces the
+# same answer as before.

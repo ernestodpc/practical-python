@@ -67,7 +67,8 @@ def read_portfolio(filename):
     with file_path.open() as f:
         reader = csv.reader(f)
         headers = next(reader)
-        portfolio = [{'name':name, 'shares':int(shares), 'price':float(price)} for name, shares, price in reader]
+        #portfolio = [{'name':name, 'shares':int(shares), 'price':float(price)} for name, shares, price in reader]
+        portfolio = [dict(zip(headers, row)) for row in reader]
     return portfolio
 
 # Excercise 2.6: Dictionaries as containers
@@ -101,17 +102,17 @@ def read_prices(filename):
 # stocks in Ex 2.5 and the dictionary of prices in Ex 2.6 and compute the current value
 # of the portfolio along with the gain/loss
 
-portfolio = read_portfolio('Data/portfolio.csv')
+portfolio = read_portfolio('Data/portfoliodate.csv')
 prices = read_prices('Data/prices.csv')
 
 portfolio_cost = 0.0
 for stock in portfolio:
-    portfolio_cost += stock.get('shares') * stock.get('price')
+    portfolio_cost += int(stock.get('shares')) * float(stock.get('price'))
 print(f'portfolio_cost: {portfolio_cost}')
 
 portfolio_value = 0.0
 for stock in portfolio:
-    portfolio_value += stock.get('shares') * prices[stock.get('name')]
+    portfolio_value += int(stock.get('shares')) * float(prices[stock.get('name')])
 print(f'portfolio_value: {portfolio_value}')
 
 print(f'The gain (or loss) is: {portfolio_value - portfolio_cost}')
@@ -131,9 +132,9 @@ print(f'The gain (or loss) is: {portfolio_value - portfolio_cost}')
 
 def make_report(*, stock_list, prices_dict):
     '''What am I supposed to do???'''
-    my_report = [(stock.get('name'), stock.get('shares'),
+    my_report = [(stock.get('name'), int(stock.get('shares')),
                   prices_dict.get(stock.get('name')),
-                  prices_dict.get(stock.get('name')) - stock.get('price'))
+                  prices_dict.get(stock.get('name')) - float(stock.get('price')))
                  for stock in stock_list]
     return my_report
 
@@ -179,3 +180,9 @@ print_report(report=my_report, headers=('Name', 'Shares', 'Price', 'Change'), se
 #
 # How would you modify your code so that the price includes the currency symbol ($)?
 # Completed! see above function definition!
+
+# Excercise 2.16 using the zip function ---> Completed
+# Modify the report.py program that you wrote in Section 2.3 so that it uses the same technique
+# to pick out column headers.
+# Try running the report.py program on the Data/portfoliodate.csv file and see that it produces the
+# same answer as before.
